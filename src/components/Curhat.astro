@@ -1,0 +1,50 @@
+---
+// Bagian Frontmatter (Logika Server-side jika ada)
+---
+
+<section class="max-w-xl mx-auto my-10 p-6 bg-white rounded-2xl shadow-lg border border-gray-100">
+    <h2 class="text-2xl font-bold text-gray-800 mb-2">Pesan untuk Ayah ✉️</h2>
+    <p class="text-gray-600 mb-6 text-sm">
+      Tuliskan apa pun yang ingin kamu sampaikan. Identitasmu tetap rahasia.
+    </p>
+  
+    <form id="formCurhat" class="space-y-4">
+      <textarea 
+        id="isiPesan" 
+        placeholder="Ayah, sebenarnya aku..." 
+        required 
+        class="w-full h-40 p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+      ></textarea>
+      
+      <button 
+        type="submit" 
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition duration-300"
+      >
+        Kirim Pesan Secara Anonim
+      </button>
+    </form>
+  
+    <div id="notifikasi" class="hidden mt-6 p-4 bg-green-100 text-green-800 rounded-xl text-center font-medium">
+      Terima kasih sudah berbagi ceritamu. Kamu hebat! ❤️
+    </div>
+  </section>
+  
+  <script>
+    // Logika Client-side untuk Astro
+    const form = document.getElementById('formCurhat') as HTMLFormElement;
+    const notif = document.getElementById('notifikasi');
+  
+    if (form && notif) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // Ambil pesan (Bisa dikirim ke database nanti)
+        const pesan = (document.getElementById('isiPesan') as HTMLTextAreaElement).value;
+        console.log("Pesan masuk:", pesan);
+  
+        // Sembunyikan form dan tampilkan pesan sukses
+        form.classList.add('hidden');
+        notif.classList.remove('hidden');
+      });
+    }
+  </script>
