@@ -1,0 +1,132 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+import ContactCTA from "../components/ContactCTA.astro";
+import Hero from "../components/Hero.astro";
+---
+
+<BaseLayout title="GemZ | Games Gen Z" description="About Jeanine White Lorem Ipsum">
+    <div class="stack gap-20">
+        <Hero
+            title="GemZ"
+            tagline="Thanks for stopping by. Read below to learn more about myself and my background."
+        >
+        </Hero>
+        <main class="wrapper about">
+            <div class="poster-section">
+                <img src="/assets/poster1.jpg" alt="Poster Image" class="poster-img"/>
+                <div class="poster-text">
+                    <h2 class="poster-title">Zeen - Game Remaja Berencana test</h2>
+                    <p class="poster-description">This is a brief description of the game. It gives an overview of the game's theme and content.</p>
+                    <a href="intent://details?id=com.keonggames.zeen#Intent;scheme=https;package=com.keonggames.zeen;end" target="_blank" rel="noopener noreferrer">
+                        <button class="start-button">Mulai Game</button>
+                    </a>
+                </div>
+            </div>
+
+      <div class="poster-section">
+        <img src="/assets/game2.jpg" alt="Poster Image" class="poster-img" />
+        <div class="poster-text">
+          <h2 class="poster-title">Health Heroes: Nutrihunt</h2>
+          <p class="poster-description">
+            This is a brief description of the game. It gives an overview of the
+            game's theme and content.
+          </p>
+          <a
+            href="intent://details?id=com.Agate.HealthHeroesNutrihunt#Intent;scheme=https;package=com.Agate.HealthHeroesNutrihunt;end"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button class="start-button">Mulai Game</button>
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <ContactCTA />
+  </div>
+</BaseLayout>
+
+<style>
+  .about {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+  }
+
+  .poster-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+  }
+
+  .poster-img {
+    max-width: 80%; /* Adjust the max-width as needed */
+    width: 200px; /* Ensure the image is smaller */
+    height: auto;
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  .poster-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .poster-title {
+    font-size: var(--text-xl);
+    color: var(--gray-0);
+  }
+
+  .poster-description {
+    color: var(--gray-200);
+  }
+
+  .start-button {
+    background-color: var(--primary-color);
+    color: var(--gray-0);
+    border: 2px solid purple; /* Set the border color to purple */
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: var(--text-md);
+    transition:
+      background-color 0.3s,
+      border-color 0.3s;
+  }
+
+  .start-button:hover {
+    background-color: var(--primary-color-dark);
+    border-color: darkpurple; /* Optional: change border color on hover */
+  }
+
+  @media (min-width: 200em) {
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 60% 1fr;
+    }
+
+    .about > :global(:first-child) {
+      grid-column-start: 2;
+    }
+
+    .poster-section {
+      flex-direction: row;
+      text-align: left;
+    }
+
+    .poster-img {
+      max-width: 30%; /* Adjust the max-width as needed */
+      width: auto; /* Make the width auto for larger screens */
+    }
+
+    .poster-text {
+      justify-content: center;
+      align-items: flex-start;
+      padding-left: 2rem;
+    }
+  }
+</style>

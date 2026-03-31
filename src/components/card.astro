@@ -1,0 +1,22 @@
+---
+const { slot } = Astro.props;
+---
+
+<div class="card">
+	{slot}
+</div>
+
+<style>
+.card {
+    border: 1px solid #ccc;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+</style>
