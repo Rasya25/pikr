@@ -126,6 +126,13 @@ declare module 'astro:content' {
 
 	type ContentEntryMap = {
 		"maren": {
+"anemia.md": {
+	id: "anemia.md";
+  slug: "anemia";
+  body: string;
+  collection: "maren";
+  data: any
+} & { render(): Render[".md"] };
 "gizi-seimbang.md": {
 	id: "gizi-seimbang.md";
   slug: "gizi-seimbang";
@@ -154,9 +161,9 @@ declare module 'astro:content' {
   collection: "maren";
   data: any
 } & { render(): Render[".md"] };
-"nested/anemia.md": {
-	id: "nested/anemia.md";
-  slug: "nested/anemia";
+"nested/fatherless.md": {
+	id: "nested/fatherless.md";
+  slug: "nested/fatherless";
   body: string;
   collection: "maren";
   data: any

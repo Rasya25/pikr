@@ -3,13 +3,13 @@ title: Anemia
 publishDate: 2020-03-04 00:00:00
 img: /assets/pp.JPG
 
-img_alt: Pearls of silky soft white cotton, bubble up under vibrant lighting
+img_alt: Inscada Youth Care and Communication
 description: |
   Melanjutkan pembahasan tentang asupan makanan dan gizi seimbang pada remaja di topik sebelumnya, salah satu risiko yang terjadi jika asupan makanan tidak terpenuhi dengan seimbang adalah terjadinya anemia pada remaja.
 tags:
-  - Design
-  - Dev
-  - Branding
+  - Anemia Remaja
+  - Gejala Anemia
+  - Pencegahan Anemia
 ---
 ## Anemia??
 

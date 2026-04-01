@@ -2,7 +2,7 @@
 title: Gizi Seimbang
 publishDate: 2020-03-02 00:00:00
 img: /assets/G2.JPG
-img_alt: Iridescent ripples of a bright blue and pink liquid
+img_alt: Inscada Youth Care and Communication
 description: |
   Gizi seimbang adalah konsep pemenuhan kebutuhan nutrisi tubuh secara optimal melalui konsumsi berbagai jenis makanan dalam proporsi yang tepat
 tags:

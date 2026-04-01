@@ -1,0 +1,215 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import Grid from '../components/Grid.astro';
+import PortfolioPreview from '../components/PortfolioPreview.astro';
+import CallToAction from '../components/CallToAction.astro';
+import Icon from '../components/Icon.astro';
+
+const projects = (await getCollection('maren'))
+	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
+	.slice(0, 4);
+---
+
+<BaseLayout>
+	<div class="stack gap-20 lg:gap-48">
+		<main class="wrapper stack gap-20 lg:gap-48">
+			<section class="section with-background with-cta">
+				<header class="section-header stack gap-2 lg:gap-4">
+					<h3>Modul Informasi (Materi)</h3>
+					<p>Materi-materi yang bisa kamu pelajari.</p>
+				</header>
+
+				<div class="gallery">
+					<Grid variant="offset">
+						{
+							projects.map((project) => (
+								<li>
+									<PortfolioPreview project={project} />
+								</li>
+							))
+						}
+					</Grid>
+				</div>
+			</section>
+
+            <!-- Ruang Curhat Section -->
+            <section class="section with-background with-cta">
+                <header class="section-header stack gap-2 lg:gap-4">
+                    <h3>Ruang Curhat: Fatherless</h3>
+                </header>
+                <div class="curhat-content">
+                    <h4>Apa itu <em>Fatherless</em>?</h4>
+                    <p>
+                        <em>Fatherless</em> adalah kondisi di mana seorang anak tumbuh tanpa kehadiran atau peran seorang ayah dalam kehidupannya. Ini bukan hanya tentang ketiadaan fisik, tetapi juga bisa berupa ketiadaan peran emosional dan psikologis.
+                    </p>
+                    <h4>Kondisi di Realita</h4>
+                    <p>Beberapa contoh situasi yang dapat menyebabkan kondisi <em>fatherless</em>:</p>
+                    <ul>
+                        <li>Perceraian orang tua yang menyebabkan anak tinggal terpisah dari ayah.</li>
+                        <li>Ayah yang bekerja di lokasi yang jauh dan jarang berinteraksi dengan anak.</li>
+                        <li>Ayah yang ada secara fisik namun tidak terlibat secara emosional dalam pengasuhan (<em>emotional absence</em>).</li>
+                        <li>Kehilangan ayah karena meninggal dunia.</li>
+                    </ul>
+                    <h4>Dampaknya</h4>
+                     <p>
+                        Ketiadaan figur ayah dapat memberikan dampak signifikan pada perkembangan anak, seperti kesulitan dalam menemukan identitas diri, masalah dalam mengelola emosi, tantangan dalam membangun hubungan yang sehat, dan menurunnya rasa percaya diri.
+                    </p>
+                </div>
+                <div class="cta">
+                    <CallToAction href="/curhat/">
+                        Confess about my father
+                        <Icon icon="arrow-right" size="1.2em" />
+                    </CallToAction>
+                </div>
+            </section>
+
+			<section class="section with-background with-cta">
+				<header class="section-header stack gap-2 lg:gap-4">
+					<h3>Tes MBTI</h3>
+					<p>Cari tahu tipe kepribadianmu melalui tes MBTI.</p>
+				</header>
+				<div class="cta">
+					<CallToAction href="https://www.16personalities.com/id/tes-kepribadian" target="_blank">
+						Mulai Tes MBTI
+						<Icon icon="arrow-right" size="1.2em" />
+					</CallToAction>
+				</div>
+			</section>
+
+			<section class="section with-background with-cta">
+				<header class="section-header stack gap-2 lg:gap-4">
+					<h3>Games Kuis</h3>
+					<p>Seberapa dekat kamu dengan ayahmu?</p>
+				</header>
+				<div class="cta">
+					<CallToAction href="#">
+						Mulai Kuis
+						<Icon icon="arrow-right" size="1.2em" />
+					</CallToAction>
+				</div>
+			</section>
+
+			<section class="section with-background bg-variant">
+				<header class="section-header stack gap-2 lg:gap-4">
+					<h3>Video Edukasi</h3>
+					<p>Tonton video-video edukasi pilihan dari kami.</p>
+				</header>
+
+				<div class="gallery">
+					<div class="video-container">
+						<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+					</div>
+				</div>
+			</section>
+		</main>
+	</div>
+</BaseLayout>
+
+<style>
+	.section {
+		display: grid;
+		gap: 2rem;
+	}
+
+	.with-background {
+		position: relative;
+	}
+
+	.with-background::before {
+		--hero-bg: var(--bg-image-subtle-2);
+
+		content: '';
+		position: absolute;
+		pointer-events: none;
+		left: 50%;
+		width: 100vw;
+		aspect-ratio: calc(2.25 / var(--bg-scale));
+		top: 0;
+		transform: translateY(-75%) translateX(-50%);
+		background:
+			url('/assets/backgrounds/noise.png') top center/220px repeat,
+			var(--hero-bg) center center / var(--bg-gradient-size) no-repeat,
+			var(--gray-999);
+		background-blend-mode: overlay, normal, normal, normal;
+		mix-blend-mode: var(--bg-blend-mode);
+		z-index: -1;
+	}
+
+	.with-background.bg-variant::before {
+		--hero-bg: var(--bg-image-subtle-1);
+	}
+
+	.section-header {
+		justify-self: center;
+		text-align: center;
+		max-width: 50ch;
+		font-size: var(--text-md);
+		color: var(--gray-300);
+	}
+
+	.section-header h3 {
+		font-size: var(--text-2xl);
+	}
+
+	.gallery {
+		grid-area: gallery;
+	}
+
+	.cta {
+		grid-area: cta;
+	}
+	.video-container {
+		width: 100%;
+		max-width: 800px;
+		margin: 0 auto;
+	}
+
+    .curhat-content {
+        background: var(--gradient-subtle);
+        padding: 1.5rem;
+        border-radius: 1.5rem;
+        color: var(--gray-200);
+        border: 1px solid var(--gray-800);
+    }
+
+    .curhat-content h4 {
+        font-size: var(--text-lg);
+        color: var(--gray-0);
+        margin-bottom: 0.75rem;
+    }
+
+    .curhat-content p, .curhat-content ul {
+        font-size: var(--text-sm);
+        line-height: 1.7;
+        margin-bottom: 1rem;
+    }
+
+    .curhat-content ul {
+        list-style-position: inside;
+        padding-left: 0.5rem;
+    }
+
+    .curhat-content li {
+        margin-bottom: 0.5rem;
+    }
+
+    @media (min-width: 50em) {
+        .section.with-cta {
+            grid-template-areas: 'header header header cta' 'gallery gallery gallery gallery';
+        }
+        .section-header {
+            grid-area: header;
+        }
+        .cta {
+            grid-area: cta;
+        }
+        .curhat-content {
+            grid-column: 1 / 4;
+            padding: 2rem;
+        }
+        .gallery {
+            grid-area: gallery;
+        }
+    }
+</style>

@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CallToAction from '../components/CallToAction.astro';
+---
+
+<BaseLayout title="Ruang Curhat">
+    <div class="stack gap-12">
+        <header class="hero">
+            <h1 class="title">Ruang Curhat</h1>
+            <p class="tagline">Ceritakan perasaanmu tentang ayahmu di sini. Semua ceritamu akan dijaga kerahasiaannya.</p>
+        </header>
+
+        <form class="curhat-form stack gap-6">
+            <div class="form-group">
+                <label for="question1">1. Ayahku itu seperti?</label>
+                <textarea id="question1" name="question1" rows="5" placeholder="Contoh: Ayahku adalah orang yang pekerja keras, tapi jarang punya waktu untukku..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="question2">2. Aku ingin ayahku seperti?</label>
+                <textarea id="question2" name="question2" rows="5" placeholder="Contoh: Aku ingin ayahku lebih sering menanyakan kabarku dan mendengarkan ceritaku..."></textarea>
+            </div>
+
+            <div class="cta-container">
+                <CallToAction href="#" type="submit">
+                    Kirim Curhat
+                </CallToAction>
+            </div>
+        </form>
+    </div>
+</BaseLayout>
+
+<style>
+    .hero {
+        text-align: center;
+        padding: 2rem 0;
+    }
+
+    .title {
+        font-size: var(--text-3xl);
+        color: var(--gray-0);
+        margin-bottom: 0.5rem;
+    }
+
+    .tagline {
+        font-size: var(--text-md);
+        color: var(--gray-300);
+        max-width: 60ch;
+        margin: 0 auto;
+    }
+
+    .curhat-form {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        background: var(--gradient-subtle);
+        border: 1px solid var(--gray-800);
+        border-radius: 1.5rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .form-group label {
+        font-size: var(--text-lg);
+        color: var(--gray-100);
+    }
+
+    .form-group textarea {
+        width: 100%;
+        padding: 1rem;
+        font-size: var(--text-sm);
+        background-color: var(--gray-900);
+        border: 1px solid var(--gray-700);
+        border-radius: 0.75rem;
+        color: var(--gray-200);
+        resize: vertical;
+    }
+
+    .form-group textarea:focus {
+        outline: none;
+        border-color: var(--accent-regular);
+    }
+
+    .cta-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1rem;
+    }
+</style>

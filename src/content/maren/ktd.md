@@ -2,13 +2,13 @@
 title: KTD |Kehamilan Tidak Di Inginkan 
 publishDate: 2020-03-02 00:00:00
 img: /assets/dis.jpeg
-img_alt: Iridescent ripples of a bright blue and pink liquid
+img_alt: Inscada Youth Care and Communication
 description: |
   Menurut kalian apasih KTD itu ? dan menurut kalian penyebab yang dihasilkan dari hal itu apa sih ? Kepoin Yukk
 tags:
-  - Pola Makan Seimbang
-  - Tips Gizi
-  - Kebiasaan Sehat
+  - Pencegahan KTD
+  - Remaja dan Kehamilan
+  - Dampak KTD
 ---
 
 ## Kehamilan Tidak Diinginkan
