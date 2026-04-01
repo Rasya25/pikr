@@ -1,12 +1,17 @@
 ---
 interface Props {
 	href: string;
+    type?: string;
+    target?: string;
+    variant?: string;
 }
 
-const { href } = Astro.props;
+const { href, type, target, variant } = Astro.props;
 ---
 
-<a href={href}><slot /></a>
+<a href={href} class:list={[variant]} target={target}>
+    <slot />
+</a>
 
 <style>
 	a {
@@ -53,4 +58,10 @@ const { href } = Astro.props;
 			font-size: var(--text-xl);
 		}
 	}
+
+    .secondary {
+        background: var(--gradient-subtle);
+        color: var(--accent-regular);
+        border: 1px solid var(--accent-regular);
+    }
 </style>

@@ -10,7 +10,11 @@ import CallToAction from '../components/CallToAction.astro';
             <p class="tagline">Ceritakan perasaanmu tentang ayahmu di sini. Semua ceritamu akan dijaga kerahasiaannya.</p>
         </header>
 
-        <form class="curhat-form stack gap-6">
+        <form class="curhat-form stack gap-6" method="POST" action="/api/curhat">
+            <div class="form-group">
+                <label for="initials">Inisial dan Kota</label>
+                <input type="text" id="initials" name="initials" placeholder="Contoh: AR, Jakarta" />
+            </div>
             <div class="form-group">
                 <label for="question1">1. Ayahku itu seperti?</label>
                 <textarea id="question1" name="question1" rows="5" placeholder="Contoh: Ayahku adalah orang yang pekerja keras, tapi jarang punya waktu untukku..."></textarea>
@@ -33,17 +37,17 @@ import CallToAction from '../components/CallToAction.astro';
 <style>
     .hero {
         text-align: center;
-        padding: 2rem 0;
+        padding: 2rem 1rem;
     }
 
     .title {
-        font-size: var(--text-3xl);
+        font-size: clamp(2.5rem, 8vw, 3.5rem);
         color: var(--gray-0);
         margin-bottom: 0.5rem;
     }
 
     .tagline {
-        font-size: var(--text-md);
+        font-size: clamp(1rem, 4vw, 1.15rem);
         color: var(--gray-300);
         max-width: 60ch;
         margin: 0 auto;
@@ -51,8 +55,9 @@ import CallToAction from '../components/CallToAction.astro';
 
     .curhat-form {
         max-width: 800px;
+        width: 90%;
         margin: 0 auto;
-        padding: 2rem;
+        padding: clamp(1.5rem, 5vw, 2.5rem);
         background: var(--gradient-subtle);
         border: 1px solid var(--gray-800);
         border-radius: 1.5rem;
@@ -69,6 +74,7 @@ import CallToAction from '../components/CallToAction.astro';
         color: var(--gray-100);
     }
 
+    .form-group input,
     .form-group textarea {
         width: 100%;
         padding: 1rem;
@@ -80,6 +86,7 @@ import CallToAction from '../components/CallToAction.astro';
         resize: vertical;
     }
 
+    .form-group input:focus,
     .form-group textarea:focus {
         outline: none;
         border-color: var(--accent-regular);

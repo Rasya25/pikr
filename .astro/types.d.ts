@@ -168,6 +168,13 @@ declare module 'astro:content' {
   collection: "maren";
   data: any
 } & { render(): Render[".md"] };
+"nested/mentalhealth.md": {
+	id: "nested/mentalhealth.md";
+  slug: "nested/mentalhealth";
+  body: string;
+  collection: "maren";
+  data: any
+} & { render(): Render[".md"] };
 };
 "work": {
 };

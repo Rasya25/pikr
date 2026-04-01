@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CallToAction from '../components/CallToAction.astro';
+---
+
+<BaseLayout title="Kuis Kedekatan dengan Ayah">
+    <div class="stack gap-12">
+        <header class="hero">
+            <h1 class="title">Kuis: Seberapa Dekat Kamu dengan Ayahmu?</h1>
+            <p class="tagline">Jawab pertanyaan berikut dengan jujur untuk melihat seberapa dalam hubunganmu dengan ayah.</p>
+        </header>
+
+        <form class="quiz-form stack gap-8">
+            <div class="question-group stack gap-4">
+                <p class="question">1. Seberapa sering kamu mengobrol santai dengan ayahmu dalam seminggu?</p>
+                <div class="options stack gap-2">
+                    <label><input type="radio" name="q1" value="a"> Hampir setiap hari</label>
+                    <label><input type="radio" name="q1" value="b"> Beberapa kali seminggu</label>
+                    <label><input type="radio" name="q1" value="c"> Jarang sekali</label>
+                    <label><input type="radio" name="q1" value="d"> Tidak pernah</label>
+                </div>
+            </div>
+
+            <div class="question-group stack gap-4">
+                <p class="question">2. Apakah kamu merasa nyaman membicarakan masalah pribadimu dengan ayah?</p>
+                <div class="options stack gap-2">
+                    <label><input type="radio" name="q2" value="a"> Sangat nyaman</label>
+                    <label><input type="radio" name="q2" value="b"> Cukup nyaman</label>
+                    <label><input type="radio" name="q2" value="c"> Sedikit tidak nyaman</label>
+                    <label><input type="radio" name="q2" value="d"> Sangat tidak nyaman</label>
+                </div>
+            </div>
+
+            <div class="question-group stack gap-4">
+                <p class="question">3. Apa kegiatan yang paling sering kamu lakukan bersama ayah?</p>
+                <div class="options stack gap-2">
+                    <label><input type="radio" name="q3" value="a"> Olahraga atau hobi bersama</label>
+                    <label><input type="radio" name="q3" value="b"> Menonton film atau acara TV</label>
+                    <label><input type="radio" name="q3" value="c"> Makan bersama</label>
+                    <label><input type="radio" name="q3" value="d"> Tidak ada kegiatan spesifik</label>
+                </div>
+            </div>
+
+            <div class="question-group stack gap-4">
+                <p class="question">4. Ketika kamu butuh nasihat, apakah ayahmu orang pertama yang kamu tuju?</p>
+                <div class="options stack gap-2">
+                    <label><input type="radio" name="q4" value="a"> Ya, selalu</label>
+                    <label><input type="radio" name="q4" value="b"> Sering, tapi tidak selalu</label>
+                    <label><input type="radio" name="q4" value="c"> Jarang</label>
+                    <label><input type="radio" name="q4" value="d"> Tidak pernah</label>
+                </div>
+            </div>
+
+            <div class="cta-container">
+                <CallToAction href="#" type="submit" variant="secondary">
+                    Lihat Hasil
+                </CallToAction>
+            </div>
+        </form>
+    </div>
+</BaseLayout>
+
+<style>
+    .hero {
+        text-align: center;
+        padding: 2rem 1rem;
+    }
+
+    .title {
+        font-size: clamp(2rem, 6vw, 3rem);
+        color: var(--gray-0);
+        margin-bottom: 0.5rem;
+    }
+
+    .tagline {
+        font-size: clamp(1rem, 4vw, 1.2rem);
+        color: var(--gray-300);
+        max-width: 60ch;
+        margin: 0 auto;
+    }
+
+    .quiz-form {
+        max-width: 800px;
+        margin: 0 auto;
+        width: 90%;
+        background: var(--gradient-subtle);
+        border: 1px solid var(--gray-800);
+        border-radius: 1.5rem;
+        padding: clamp(1.5rem, 5vw, 2.5rem);
+    }
+
+    .question {
+        font-size: var(--text-lg);
+        color: var(--gray-100);
+        font-weight: 500;
+    }
+
+    .options label {
+        display: block;
+        padding: 0.75rem 1rem;
+        background-color: var(--gray-900);
+        border: 1px solid var(--gray-700);
+        border-radius: 0.75rem;
+        cursor: pointer;
+        transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    .options label:hover {
+        background-color: var(--gray-800);
+    }
+    
+    .options input[type="radio"] {
+        margin-right: 0.75rem;
+        accent-color: var(--accent-regular);
+    }
+
+    .cta-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1rem;
+    }
+</style>
