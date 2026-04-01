@@ -10,19 +10,19 @@ import CallToAction from '../components/CallToAction.astro';
             <p class="tagline">Ceritakan perasaanmu tentang ayahmu di sini. Semua ceritamu akan dijaga kerahasiaannya.</p>
         </header>
 
-        <form class="curhat-form stack gap-6" method="POST" action="/api/curhat">
+        <form id="curhat-form" class="curhat-form stack gap-6">
             <div class="form-group">
                 <label for="initials">Inisial dan Kota</label>
-                <input type="text" id="initials" name="initials" placeholder="Contoh: AR, Jakarta" />
+                <input type="text" id="initials" name="initials" placeholder="Contoh: AR, Jakarta" required />
             </div>
             <div class="form-group">
                 <label for="question1">1. Ayahku itu seperti?</label>
-                <textarea id="question1" name="question1" rows="5" placeholder="Contoh: Ayahku adalah orang yang pekerja keras, tapi jarang punya waktu untukku..."></textarea>
+                <textarea id="question1" name="question1" rows="5" placeholder="Contoh: Ayahku adalah orang yang pekerja keras, tapi jarang punya waktu untukku..." required></textarea>
             </div>
 
             <div class="form-group">
                 <label for="question2">2. Aku ingin ayahku seperti?</label>
-                <textarea id="question2" name="question2" rows="5" placeholder="Contoh: Aku ingin ayahku lebih sering menanyakan kabarku dan mendengarkan ceritaku..."></textarea>
+                <textarea id="question2" name="question2" rows="5" placeholder="Contoh: Aku ingin ayahku lebih sering menanyakan kabarku dan mendengarkan ceritaku..." required></textarea>
             </div>
 
             <div class="cta-container">
@@ -33,6 +33,26 @@ import CallToAction from '../components/CallToAction.astro';
         </form>
     </div>
 </BaseLayout>
+
+<script>
+    const form = document.getElementById('curhat-form') as HTMLFormElement;
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const response = await fetch('/api/curhat', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            alert('Terima kasih telah berbagi cerita. Tetap semangat, ya!');
+            window.location.href = '/'; // Redirect to homepage
+        } else {
+            alert('Gagal mengirim curhat. Silakan coba lagi.');
+        }
+    });
+</script>
 
 <style>
     .hero {
