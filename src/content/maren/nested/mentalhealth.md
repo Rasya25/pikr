@@ -1,7 +1,7 @@
 ---
 title: Mental Health
 publishDate: 2026-04-02 00:00:00
-img: /assets/fatherless.png
+img: /assets/mental.png
 
 img_alt: Inscada Youth Care and Communication
 description: |
