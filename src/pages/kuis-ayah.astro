@@ -52,13 +52,78 @@ import CallToAction from '../components/CallToAction.astro';
             </div>
 
             <div class="cta-container">
-                <CallToAction href="#" type="submit" variant="secondary">
-                    Lihat Hasil
-                </CallToAction>
+                <button type="submit" class="submit-btn">Lihat Hasil</button>
             </div>
         </form>
     </div>
+
+    <!-- Result Modal -->
+    <div id="result-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2 id="modal-title">Hasil Kuis</h2>
+            <p id="modal-score"></p>
+            <p id="modal-text"></p>
+            <button id="modal-close-btn">Tutup</button>
+        </div>
+    </div>
 </BaseLayout>
+
+<script>
+    const form = document.querySelector('.quiz-form');
+    const modal = document.getElementById('result-modal');
+    const modalScore = document.getElementById('modal-score');
+    const modalText = document.getElementById('modal-text');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+
+    if (form instanceof HTMLFormElement && modal && modalScore && modalText && modalCloseBtn) {
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+            const answers = {
+                q1: formData.get('q1'),
+                q2: formData.get('q2'),
+                q3: formData.get('q3'),
+                q4: formData.get('q4'),
+            };
+
+            let score = 0;
+            if (answers.q1 === 'a') score += 25;
+            if (answers.q1 === 'b') score += 15;
+            if (answers.q1 === 'c') score += 5;
+            
+            if (answers.q2 === 'a') score += 25;
+            if (answers.q2 === 'b') score += 15;
+            if (answers.q2 === 'c') score += 5;
+
+            if (answers.q3 === 'a') score += 25;
+            if (answers.q3 === 'b') score += 15;
+            if (answers.q3 === 'c') score += 5;
+
+            if (answers.q4 === 'a') score += 25;
+            if (answers.q4 === 'b') score += 15;
+            if (answers.q4 === 'c') score += 5;
+
+            let resultText = '';
+            if (score > 75) {
+                resultText = 'Wow, hubunganmu dengan ayah sangat dekat! Pertahankan terus, ya!';
+            } else if (score > 50) {
+                resultText = 'Hubunganmu dengan ayah cukup baik. Terus tingkatkan kualitas komunikasimu, ya!';
+            } else {
+                resultText = 'Sepertinya ada sedikit jarak antara kamu dan ayah. Coba deh, luangkan waktu untuk ngobrol lebih sering.';
+            }
+
+            modalScore.textContent = `Skor kamu: ${score}`;
+            modalText.textContent = resultText;
+            modal.style.display = 'flex';
+        });
+
+        modalCloseBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            window.location.href = '/pilar';
+        });
+    }
+</script>
 
 <style>
     .hero {
@@ -118,5 +183,73 @@ import CallToAction from '../components/CallToAction.astro';
         display: flex;
         justify-content: flex-end;
         margin-top: 1rem;
+    }
+
+    .submit-btn {
+        background-color: var(--accent-regular);
+        color: var(--gray-0);
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        font-weight: 500;
+    }
+
+    .submit-btn:hover {
+        background-color: var(--accent-dark);
+    }
+
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .modal-content {
+        background: var(--gray-900);
+        padding: 2rem;
+        border-radius: 1rem;
+        border: 1px solid var(--gray-700);
+        width: 90%;
+        max-width: 500px;
+        text-align: center;
+        color: var(--gray-100);
+    }
+
+    #modal-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    #modal-score {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    #modal-text {
+        margin-bottom: 1.5rem;
+    }
+
+    #modal-close-btn {
+        background-color: var(--accent-regular);
+        color: var(--gray-0);
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    #modal-close-btn:hover {
+        background-color: var(--accent-dark);
     }
 </style>

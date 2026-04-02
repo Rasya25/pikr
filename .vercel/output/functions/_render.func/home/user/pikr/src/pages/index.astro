@@ -15,6 +15,7 @@ import PortfolioPreview from '../components/PortfolioPreview.astro';
 // Page section components
 import ContactCTA from '../components/ContactCTA.astro';
 import Skills from '../components/Skills.astro';
+import Curhat from '../components/Curhat.astro';
 
 // Content Fetching: List four most recent work projects
 const projects = (await getCollection('maren'))
@@ -38,7 +39,7 @@ const projects = (await getCollection('maren'))
 				</Hero>
 
 				<img
-					alt="Jeanine White smiling in a red plaid shirt and tortoise shell glasses"
+					alt="Inscada Youth Care and Communication"
 					width="850"
 					height="400"
 					src="/assets/pin.jpg"
@@ -46,7 +47,24 @@ const projects = (await getCollection('maren'))
 			</header>
 
 			<Skills />
-		</div>
+
+			<!-- <Curhat /> -->
+			<main class="wrapper stack gap-20 lg:gap-48">
+				<section class="section with-background with-cta">
+			<header class="section-header stack gap-2 lg:gap-4">
+				<h3>PILAR</h3>
+				<p>Pusat Inspirasi & Laku Remaja</p>
+				<p>Membangun kembali pilar kekuatan yang patah. Membantu remaja Mojokerto melampaui trauma pengasuhan dan menavigasi kesehatan mental menuju masa depan yang lebih kokoh.</p>
+			</header>
+			<div class="cta">
+				<CallToAction href="/pilar/">
+					Mulai Pulih Sekarang
+					<Icon icon="arrow-right" size="1.2em" />
+				</CallToAction>
+			</div>
+				</section>
+
+			</main>
 
 		<main class="wrapper stack gap-20 lg:gap-48">
 			<section class="section with-background with-cta">
@@ -69,10 +87,11 @@ const projects = (await getCollection('maren'))
 
 				<div class="cta">
 					<CallToAction href="/maren/">
-						View All 
+						Lihat Semua Materi
 						<Icon icon="arrow-right" size="1.2em" />
 					</CallToAction>
 				</div>
+
 			</section>
 
 			<section class="section with-background bg-variant">
@@ -95,9 +114,9 @@ const projects = (await getCollection('maren'))
 					</Grid>
 				</div>
 			</section>
+
 		</main>
 
-		<ContactCTA />
 	</div>
 </BaseLayout>
 

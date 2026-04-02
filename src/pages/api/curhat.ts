@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 import { db } from '../../firebase/config';
 import { collection, addDoc } from "firebase/firestore"; 
 
-export const post: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request }) => {
   const data = await request.formData();
   const initials = data.get('initials');
   const question1 = data.get('question1');

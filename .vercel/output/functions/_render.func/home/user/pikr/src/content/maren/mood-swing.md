@@ -2,16 +2,16 @@
 title: Mood Swing
 publishDate: 2019-12-01 00:00:00
 img: /assets/p3.jpg
-img_alt: A bright pink sheet of paper used to wrap flowers curves in front of rich blue background
+img_alt: Inscada Youth Care and Communication
 description: 
  
  Mood swing adalah kondisi berupa terjadinya perubahan suasana hati secara cepat dan drastis. Kondisi ini bisa dipicu oleh berbagai faktor mulai dari pengaruh lingkungan sekitar, gangguan mental, perubahan hormon, hingga kondisi medis tertentu.
  
  Mari kenali penyebab, tanda-tanda, dan cara mengatasi mood swing selengkapnya melalui artikel di bawah ini.
 tags:
-  - Dev
-  - Branding
-  - Backend
+  - Kesehatan Mental
+  - Kesejahteraan Emosional
+  - Keseimbangan Hormon
 ---
 > Apa itu Mood Swing?
  

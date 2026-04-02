@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CallToAction from '../components/CallToAction.astro';
 ---
 
 <BaseLayout title="Ruang Curhat">
@@ -26,35 +25,68 @@ import CallToAction from '../components/CallToAction.astro';
             </div>
 
             <div class="cta-container">
-                <CallToAction href="#" type="submit">
+                <button type="submit" class="submit-button">
                     Kirim Curhat
-                </CallToAction>
+                </button>
             </div>
         </form>
     </div>
 </BaseLayout>
 
 <script>
-    const form = document.getElementById('curhat-form') as HTMLFormElement;
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+    function setupCurhatForm() {
+        console.log("Mencoba menyambungkan formulir...");
+        const form = document.getElementById('curhat-form') as HTMLFormElement | null;
 
-        const formData = new FormData(form);
-        const response = await fetch('/api/curhat', {
-            method: 'POST',
-            body: formData
-        });
+        if (form) {
+            if (form.dataset.listenerAttached) {
+                console.log("Listener sudah ada.");
+                return;
+            }
+            console.log("Formulir ditemukan, menambahkan event listener.");
+            form.dataset.listenerAttached = 'true';
 
-        if (response.ok) {
-            alert('Terima kasih telah berbagi cerita. Tetap semangat, ya!');
-            window.location.href = '/'; // Redirect to homepage
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                console.log("Formulir dikirim!");
+
+                const submitButton = form.querySelector('.submit-button') as HTMLButtonElement | null;
+                if (submitButton) submitButton.disabled = true;
+
+                const formData = new FormData(form);
+                try {
+                    const response = await fetch('/api/curhat', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        console.log("Pengiriman berhasil.");
+                        alert('Terima kasih telah berbagi cerita. Tetap semangat, ya!');
+                        window.location.href = '/';
+                    } else {
+                        const errorData = await response.json();
+                        console.error("Pengiriman gagal:", errorData.message);
+                        alert('Gagal mengirim curhat: ' + errorData.message);
+                    }
+                } catch (error) {
+                    console.error("Terjadi error pada jaringan:", error);
+                    alert('Gagal mengirim curhat. Periksa koneksi internet Anda.');
+                } finally {
+                    if (submitButton) submitButton.disabled = false;
+                }
+            });
         } else {
-            alert('Gagal mengirim curhat. Silakan coba lagi.');
+            console.error("Formulir curhat tidak ditemukan!");
         }
-    });
+    }
+
+    document.addEventListener('astro:page-load', setupCurhatForm);
+    setupCurhatForm();
 </script>
 
 <style>
+    /* ... Gaya lain tidak berubah ... */
     .hero {
         text-align: center;
         padding: 2rem 1rem;
@@ -116,5 +148,17 @@ import CallToAction from '../components/CallToAction.astro';
         display: flex;
         justify-content: flex-end;
         margin-top: 1rem;
+    }
+
+    .submit-button {
+        display: inline-block;
+        padding: 0.8rem 2rem;
+        border-radius: 999px;
+        background-image: var(--gradient-accent-orange);
+        color: var(--gray-900);
+        font-weight: 600;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
     }
 </style>
