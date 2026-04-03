@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Modal from '../components/Modal.astro';
 ---
 
 <BaseLayout title="Ruang Curhat">
@@ -31,62 +32,68 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             </div>
         </form>
     </div>
+
+    <Modal id="feedback-modal" title="Status Pengiriman">
+        <p id="feedback-message"></p>
+    </Modal>
 </BaseLayout>
 
 <script>
-    function setupCurhatForm() {
-        console.log("Mencoba menyambungkan formulir...");
-        const form = document.getElementById('curhat-form') as HTMLFormElement | null;
+    document.addEventListener('astro:page-load', () => {
+        const form = document.getElementById('curhat-form');
+        const modal = document.getElementById('feedback-modal');
+        const modalMessage = document.getElementById('feedback-message');
+        const modalCloseBtn = modal?.querySelector('.modal-close-btn');
+        const submitButton = form?.querySelector('.submit-button');
 
-        if (form) {
-            if (form.dataset.listenerAttached) {
-                console.log("Listener sudah ada.");
-                return;
-            }
-            console.log("Formulir ditemukan, menambahkan event listener.");
-            form.dataset.listenerAttached = 'true';
+        // This combined type guard ensures all elements are valid and not null
+        // before any logic that uses them is defined.
+        if (
+            form instanceof HTMLFormElement &&
+            modal instanceof HTMLElement &&
+            modalMessage instanceof HTMLParagraphElement &&
+            modalCloseBtn instanceof HTMLButtonElement &&
+            submitButton instanceof HTMLButtonElement
+        ) {
+            const showModal = (message: string) => {
+                modalMessage.textContent = message;
+                modal.classList.add('is-visible');
+            };
 
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                console.log("Formulir dikirim!");
-
-                const submitButton = form.querySelector('.submit-button') as HTMLButtonElement | null;
-                if (submitButton) submitButton.disabled = true;
+                submitButton.disabled = true;
 
                 const formData = new FormData(form);
                 try {
                     const response = await fetch('/api/curhat', {
                         method: 'POST',
-                        body: formData
+                        body: formData,
                     });
 
+                    const data = await response.json();
                     if (response.ok) {
-                        console.log("Pengiriman berhasil.");
-                        alert('Terima kasih telah berbagi cerita. Tetap semangat, ya!');
-                        window.location.href = '/';
+                        showModal('Terima kasih telah berbagi cerita. Tetap semangat, ya!');
+                        form.reset();
                     } else {
-                        const errorData = await response.json();
-                        console.error("Pengiriman gagal:", errorData.message);
-                        alert('Gagal mengirim curhat: ' + errorData.message);
+                        showModal(`Gagal mengirim curhat: ${data.message || 'Terjadi kesalahan'}`);
                     }
                 } catch (error) {
-                    console.error("Terjadi error pada jaringan:", error);
-                    alert('Gagal mengirim curhat. Periksa koneksi internet Anda.');
+                    showModal('Gagal mengirim curhat. Periksa koneksi internet Anda.');
                 } finally {
-                    if (submitButton) submitButton.disabled = false;
+                    submitButton.disabled = false;
                 }
             });
-        } else {
-            console.error("Formulir curhat tidak ditemukan!");
-        }
-    }
 
-    document.addEventListener('astro:page-load', setupCurhatForm);
-    setupCurhatForm();
+            modalCloseBtn.addEventListener('click', () => {
+                modal.classList.remove('is-visible');
+            });
+        }
+    });
 </script>
 
 <style>
-    /* ... Gaya lain tidak berubah ... */
+    /* Styles remain the same */
     .hero {
         text-align: center;
         padding: 2rem 1rem;

@@ -33,4 +33,4 @@ Gerakan Ayah Teladan Indonesia (GATI) menjadi solusi utama untuk memutus rantai 
 * **Pilar Guidance:** Ayah menjadi mentor utama dalam pengambilan keputusan anak.
 * **Pilar Protection:** Ayah menciptakan lingkungan yang aman tanpa kekerasan.
 
-<img alt="GATI Poster" width="500" height="800" src="/assets/gati_action.png" style="display: block; margin-left: auto; margin-right: auto;"/>
+<img alt="GATI Poster" width="500" height="800" src="/assets/gati-action.png" style="display: block; margin-left: auto; margin-right: auto;"/>
