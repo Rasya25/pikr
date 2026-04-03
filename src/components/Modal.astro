@@ -28,15 +28,15 @@ const { id, title } = Astro.props;
         display: flex;
         justify-content: center;
         align-items: center;
-        z-index: 1000;
-        opacity: 0;
         visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.3s;
+        z-index: 1000;
     }
 
     .modal-overlay.is-visible {
-        opacity: 1;
         visibility: visible;
+        opacity: 1;
     }
 
     .modal-content {
@@ -47,23 +47,16 @@ const { id, title } = Astro.props;
         width: 90%;
         max-width: 500px;
         text-align: center;
-        color: var(--gray-100);
-        transform: scale(0.9);
-        transition: transform 0.3s ease;
-    }
-
-    .modal-overlay.is-visible .modal-content {
-        transform: scale(1);
     }
 
     .modal-title {
-        font-size: 1.75rem;
-        font-weight: 600;
+        color: var(--gray-100);
         margin-bottom: 1rem;
     }
 
     .modal-body {
-        margin-bottom: 1.5rem;
+        color: var(--gray-300);
+        margin-bottom: 2rem;
     }
 
     .modal-close-btn {
