@@ -1,6 +1,33 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Modal from '../components/Modal.astro';
+import { db } from '../firebase/server';
+import { collection, addDoc } from 'firebase/firestore';
+
+if (Astro.request.method === 'POST') {
+    try {
+        const formData = await Astro.request.formData();
+        const initials = formData.get('initials');
+        const question1 = formData.get('question1');
+        const question2 = formData.get('question2');
+
+        if (!initials || !question1 || !question2) {
+            return new Response(JSON.stringify({ message: 'Semua kolom harus diisi.' }), { status: 400 });
+        }
+
+        await addDoc(collection(db, "curhatan"), {
+            initials: initials.toString(),
+            answer1: question1.toString(),
+            answer2: question2.toString(),
+            timestamp: new Date(),
+        });
+
+        return new Response(JSON.stringify({ message: 'Curhat berhasil dikirim!' }), { status: 200 });
+
+    } catch (error) {
+        console.error("Error adding document: ", error);
+        return new Response(JSON.stringify({ message: 'Gagal menyimpan ke database.' }), { status: 500 });
+    }
+}
 ---
 
 <BaseLayout title="Ruang Curhat">
@@ -17,155 +44,97 @@ import Modal from '../components/Modal.astro';
             </div>
             <div class="form-group">
                 <label for="question1">1. Ayahku itu seperti?</label>
-                <textarea id="question1" name="question1" rows="5" placeholder="Contoh: Ayahku adalah orang yang pekerja keras, tapi jarang punya waktu untukku..." required></textarea>
+                <textarea id="question1" name="question1" rows="5" placeholder="Contoh: Ayahku adalah orang yang pekerja keras..." required></textarea>
             </div>
-
             <div class="form-group">
                 <label for="question2">2. Aku ingin ayahku seperti?</label>
-                <textarea id="question2" name="question2" rows="5" placeholder="Contoh: Aku ingin ayahku lebih sering menanyakan kabarku dan mendengarkan ceritaku..." required></textarea>
+                <textarea id="question2" name="question2" rows="5" placeholder="Contoh: Aku ingin ayahku lebih sering menanyakan kabarku..." required></textarea>
             </div>
-
             <div class="cta-container">
-                <button type="submit" class="submit-button">
-                    Kirim Curhat
-                </button>
+                <button type="submit" class="submit-button">Kirim Curhat</button>
             </div>
         </form>
     </div>
 
-    <Modal id="feedback-modal" title="Status Pengiriman">
-        <p id="feedback-message"></p>
-    </Modal>
+    <!-- Feedback Modal -->
+    <div id="feedback-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Status Pengiriman</h2>
+            <p id="feedback-message"></p>
+            <button id="modal-close-btn">Tutup</button>
+        </div>
+    </div>
 </BaseLayout>
 
-<script>
-    document.addEventListener('astro:page-load', () => {
+<script is:inline>
+    function setupCurhat() {
         const form = document.getElementById('curhat-form');
+        if (!form || form.dataset.initialized) return;
+
         const modal = document.getElementById('feedback-modal');
         const modalMessage = document.getElementById('feedback-message');
-        const modalCloseBtn = modal?.querySelector('.modal-close-btn');
-        const submitButton = form?.querySelector('.submit-button');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const submitButton = form.querySelector('.submit-button');
 
-        // This combined type guard ensures all elements are valid and not null
-        // before any logic that uses them is defined.
-        if (
-            form instanceof HTMLFormElement &&
-            modal instanceof HTMLElement &&
-            modalMessage instanceof HTMLParagraphElement &&
-            modalCloseBtn instanceof HTMLButtonElement &&
-            submitButton instanceof HTMLButtonElement
-        ) {
-            const showModal = (message: string) => {
-                modalMessage.textContent = message;
-                modal.classList.add('is-visible');
-            };
+        const showModal = (message) => {
+            modalMessage.textContent = message;
+            modal.style.display = 'flex';
+        };
 
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                submitButton.disabled = true;
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            submitButton.disabled = true;
+            submitButton.textContent = 'Mengirim...';
+            const formData = new FormData(form);
 
-                const formData = new FormData(form);
-                try {
-                    const response = await fetch('/api/curhat', {
-                        method: 'POST',
-                        body: formData,
-                    });
-
-                    const data = await response.json();
-                    if (response.ok) {
-                        showModal('Terima kasih telah berbagi cerita. Tetap semangat, ya!');
-                        form.reset();
-                    } else {
-                        showModal(`Gagal mengirim curhat: ${data.message || 'Terjadi kesalahan'}`);
-                    }
-                } catch (error) {
-                    showModal('Gagal mengirim curhat. Periksa koneksi internet Anda.');
-                } finally {
-                    submitButton.disabled = false;
+            try {
+                const response = await fetch(window.location.href, {
+                    method: 'POST',
+                    body: formData,
+                });
+                const result = await response.json();
+                if (response.ok) {
+                    showModal('Terima kasih telah berbagi cerita. Tetap semangat, ya!');
+                    form.reset();
+                } else {
+                    showModal(`Gagal: ${result.message || 'Terjadi kesalahan'}`);
                 }
-            });
+            } catch (error) {
+                showModal('Gagal mengirim curhat. Periksa koneksi internet Anda.');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Kirim Curhat';
+            }
+        });
 
-            modalCloseBtn.addEventListener('click', () => {
-                modal.classList.remove('is-visible');
-            });
-        }
-    });
+        modalCloseBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            window.location.href = '/pilar';
+        });
+
+        form.dataset.initialized = 'true';
+    }
+
+    document.addEventListener('astro:page-load', setupCurhat);
+    setupCurhat();
 </script>
 
 <style>
-    /* Styles remain the same */
-    .hero {
-        text-align: center;
-        padding: 2rem 1rem;
-    }
-
-    .title {
-        font-size: clamp(2.5rem, 8vw, 3.5rem);
-        color: var(--gray-0);
-        margin-bottom: 0.5rem;
-    }
-
-    .tagline {
-        font-size: clamp(1rem, 4vw, 1.15rem);
-        color: var(--gray-300);
-        max-width: 60ch;
-        margin: 0 auto;
-    }
-
-    .curhat-form {
-        max-width: 800px;
-        width: 90%;
-        margin: 0 auto;
-        padding: clamp(1.5rem, 5vw, 2.5rem);
-        background: var(--gradient-subtle);
-        border: 1px solid var(--gray-800);
-        border-radius: 1.5rem;
-    }
-
-    .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .form-group label {
-        font-size: var(--text-lg);
-        color: var(--gray-100);
-    }
-
-    .form-group input,
-    .form-group textarea {
-        width: 100%;
-        padding: 1rem;
-        font-size: var(--text-sm);
-        background-color: var(--gray-900);
-        border: 1px solid var(--gray-700);
-        border-radius: 0.75rem;
-        color: var(--gray-200);
-        resize: vertical;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus {
-        outline: none;
-        border-color: var(--accent-regular);
-    }
-
-    .cta-container {
-        display: flex;
-        justify-content: flex-end;
-        margin-top: 1rem;
-    }
-
-    .submit-button {
-        display: inline-block;
-        padding: 0.8rem 2rem;
-        border-radius: 999px;
-        background-image: var(--gradient-accent-orange);
-        color: var(--gray-900);
-        font-weight: 600;
-        text-decoration: none;
-        border: none;
-        cursor: pointer;
-    }
+    .hero { text-align: center; padding: 2rem 1rem; }
+    .title { font-size: clamp(2.5rem, 8vw, 3.5rem); color: var(--gray-0); margin-bottom: 0.5rem; }
+    .tagline { font-size: clamp(1rem, 4vw, 1.15rem); color: var(--gray-300); max-width: 60ch; margin: 0 auto; }
+    .curhat-form { max-width: 800px; width: 90%; margin: 0 auto; padding: clamp(1.5rem, 5vw, 2.5rem); background: var(--gradient-subtle); border: 1px solid var(--gray-800); border-radius: 1.5rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .form-group label { font-size: var(--text-lg); color: var(--gray-100); }
+    .form-group input, .form-group textarea { width: 100%; padding: 1rem; font-size: var(--text-sm); background-color: var(--gray-900); border: 1px solid var(--gray-700); border-radius: 0.75rem; color: var(--gray-200); resize: vertical; }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--accent-regular); }
+    .cta-container { display: flex; justify-content: flex-end; margin-top: 1rem; }
+    .submit-button { display: inline-block; padding: 0.8rem 2rem; border-radius: 999px; background-image: var(--gradient-accent-orange); color: var(--gray-900); font-weight: 600; text-decoration: none; border: none; cursor: pointer; transition: background-color 0.2s; }
+    .submit-button:disabled { background-color: var(--gray-500); cursor: not-allowed; }
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+    .modal-content { background: var(--gray-900); padding: 2rem; border-radius: 1rem; border: 1px solid var(--gray-700); width: 90%; max-width: 500px; text-align: center; color: var(--gray-100); }
+    .modal-content h2 { font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; }
+    #feedback-message { margin-bottom: 1.5rem; }
+    #modal-close-btn { background-color: var(--accent-regular); color: var(--gray-0); border: none; padding: 0.75rem 1.5rem; border-radius: 0.5rem; cursor: pointer; transition: background-color 0.2s; }
+    #modal-close-btn:hover { background-color: var(--accent-dark); }
 </style>
