@@ -5,6 +5,7 @@ import { collection, addDoc } from 'firebase/firestore';
 
 if (Astro.request.method === 'POST') {
     try {
+        // DIKEMBALIKAN: Menggunakan formData
         const formData = await Astro.request.formData();
         const initials = formData.get('initials');
         const question1 = formData.get('question1');
@@ -25,7 +26,8 @@ if (Astro.request.method === 'POST') {
 
     } catch (error) {
         console.error("Error adding document: ", error);
-        return new Response(JSON.stringify({ message: 'Gagal menyimpan ke database.' }), { status: 500 });
+        // Mengubah pesan error agar lebih spesifik
+        return new Response(JSON.stringify({ message: 'Gagal mengirim curhat. Periksa aturan & koneksi.' }), { status: 500 });
     }
 }
 ---
@@ -39,8 +41,8 @@ if (Astro.request.method === 'POST') {
 
         <form id="curhat-form" class="curhat-form stack gap-6">
             <div class="form-group">
-                <label for="initials">Inisial dan Kota</label>
-                <input type="text" id="initials" name="initials" placeholder="Contoh: AR, Jakarta" required />
+                <label for="initials">Inisial dan Kota</label>b
+                <input type="text" id="initials" name="initials" placeholder="Contoh: R, Mojokerto" required />
             </div>
             <div class="form-group">
                 <label for="question1">1. Ayahku itu seperti?</label>
@@ -85,14 +87,19 @@ if (Astro.request.method === 'POST') {
             e.preventDefault();
             submitButton.disabled = true;
             submitButton.textContent = 'Mengirim...';
+
+            // DIKEMBALIKAN: Mengirim data sebagai FormData
             const formData = new FormData(form);
 
             try {
                 const response = await fetch(window.location.href, {
                     method: 'POST',
+                    // Header TIDAK di-set manual, biarkan browser yang mengaturnya untuk FormData
                     body: formData,
                 });
+
                 const result = await response.json();
+
                 if (response.ok) {
                     showModal('Terima kasih telah berbagi cerita. Tetap semangat, ya!');
                     form.reset();
